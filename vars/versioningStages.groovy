@@ -10,6 +10,21 @@ def calculateSemanticVersion() {
         
         echo "🏷️  Último tag: ${lastTag}"
         
+        // Verificar si hay nuevos commits desde el último tag
+        def commitsCount = sh(
+            script: "git rev-list ${lastTag}..HEAD --count 2>/dev/null || git rev-list HEAD --count",
+            returnStdout: true
+        ).trim() as Integer
+        
+        if (commitsCount == 0) {
+            echo "ℹ️  No hay nuevos commits desde el último tag ${lastTag}"
+            def currentVersion = lastTag.replaceAll(/^v/, '')
+            echo "🏷️  Manteniendo versión actual: v${currentVersion}"
+            return currentVersion
+        }
+        
+        echo "📊 Encontrados ${commitsCount} commits nuevos desde ${lastTag}"
+        
         // Extraer números de versión
         def versionNumbers = lastTag.replaceAll(/^v/, '').split('\\.')
         def major = versionNumbers[0] as Integer

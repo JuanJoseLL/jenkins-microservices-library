@@ -10,7 +10,8 @@ class Constants {
         'order-service',
         'payment-service',
         'shipping-service',
-        'favourite-service'
+        'favourite-service',
+        'proxy-service'
     ]
     
     // Servicios con diferentes tipos de pruebas

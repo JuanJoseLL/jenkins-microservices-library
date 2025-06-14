@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Inestable</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #fffbf0; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; border: 2px solid #ffc107; }
+        .header { background: linear-gradient(135deg, #ffc107, #e0a800); color: #333; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; font-weight: 600; }
+        .header .icon { font-size: 48px; margin-bottom: 10px; }
+        .content { padding: 30px; }
+        .section { margin-bottom: 25px; }
+        .section h3 { color: #e0a800; border-bottom: 2px solid #fff3cd; padding-bottom: 8px; margin-bottom: 15px; font-size: 18px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .info-item { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; }
+        .info-item strong { color: #495057; display: block; margin-bottom: 5px; }
+        .info-item span { color: #6c757d; font-family: 'Monaco', 'Consolas', monospace; }
+        .warning-info { background: #fff3cd; padding: 20px; border-radius: 8px; border: 1px solid #ffeaa7; margin: 15px 0; }
+        .warning-info strong { color: #856404; }
+        ul { list-style: none; padding: 0; }
+        ul li { background: #f8f9fa; margin: 8px 0; padding: 12px; border-radius: 6px; border-left: 3px solid #ffc107; }
+        .footer { background: #f8f9fa; padding: 25px; text-align: center; border-top: 1px solid #dee2e6; }
+        .btn { display: inline-block; background: #ffc107; color: #333; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.3s; }
+        .btn:hover { background: #e0a800; }
+        .warnings { background: #fff3cd; padding: 20px; border-radius: 8px; margin: 15px 0; border: 1px solid #ffeaa7; }
+        .warning-banner { background: linear-gradient(135deg, #fff3cd, #ffeaa7); color: #856404; padding: 20px; border-radius: 8px; border: 2px solid #ffc107; text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">⚠️</div>
+            <h1>Pipeline Completado con Advertencias</h1>
+            <p>Build #${BUILD_NUMBER} • ${JOB_NAME}</p>
+        </div>
+        
+        <div class="content">
+            <div class="warning-banner">
+                <h3>⚠️ Pipeline Inestable</h3>
+                <p>El pipeline se completó exitosamente, pero se encontraron algunas advertencias que requieren atención. 
+                   Aunque el build fue exitoso, es recomendable revisar y resolver estas advertencias.</p>
+            </div>
+
+            <div class="section">
+                <h3>📋 Información del Build</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Job:</strong>
+                        <span>${JOB_NAME}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Build Number:</strong>
+                        <span>#${BUILD_NUMBER}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Branch:</strong>
+                        <span>${BRANCH_NAME}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Versión Semántica:</strong>
+                        <span>v${SEMANTIC_VERSION}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Commit:</strong>
+                        <span>${GIT_COMMIT}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Duración:</strong>
+                        <span>${DURATION}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🚀 Servicios Construidos</h3>
+                <ul>
+                    ${SERVICES_LIST}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>⚠️ Advertencias de Seguridad</h3>
+                <div class="warnings">
+                    <p><strong>Se encontraron algunas advertencias durante el escaneo de seguridad:</strong></p>
+                    <ul>
+                        ${SECURITY_WARNINGS}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔍 Posibles Problemas Detectados</h3>
+                <div class="warning-info">
+                    <strong>Tipos de advertencias comunes:</strong>
+                    <ul style="margin-top: 10px; color: #856404;">
+                        <li>• Vulnerabilidades de seguridad de severidad media</li>
+                        <li>• Dependencias desactualizadas</li>
+                        <li>• Pruebas con warnings o saltadas</li>
+                        <li>• Problemas de calidad de código</li>
+                        <li>• Configuraciones no optimizadas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>✅ Estado del Despliegue</h3>
+                <div class="info-item">
+                    <strong>Estado:</strong> Completado con advertencias
+                    <br><br>
+                    <strong>Resultado:</strong> Los servicios fueron construidos y desplegados exitosamente, 
+                    pero se recomienda abordar las advertencias encontradas antes del próximo release.
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔧 Acciones Recomendadas</h3>
+                <div class="info-item">
+                    <ol style="color: #495057; padding-left: 20px;">
+                        <li>Revisa las advertencias de seguridad y evalúa su impacto</li>
+                        <li>Actualiza dependencias vulnerables si es posible</li>
+                        <li>Considera abordar los warnings en el próximo sprint</li>
+                        <li>Monitorea el comportamiento de los servicios en producción</li>
+                        <li>Planifica tiempo para resolver las advertencias persistentes</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Pipeline completado con advertencias el ${BUILD_TIMESTAMP} por Jenkins CI/CD</p>
+            <a href="${BUILD_URL}" class="btn">Ver Detalles del Build</a>
+        </div>
+    </div>
+</body>
+</html>

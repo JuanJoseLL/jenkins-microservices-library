@@ -69,4 +69,5 @@ def runContainerSecurityScan(List imagesToScan) {
     // Generar reporte consolidado
     scanner.generateConsolidatedReport(scanResults, totalCritical, totalHigh, env.BUILD_NUMBER)
     
-    echo "📈"
+    echo "📈 hola como estas"
+    }

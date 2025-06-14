@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Exitoso</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f8fdf8; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; font-weight: 600; }
+        .header .icon { font-size: 48px; margin-bottom: 10px; }
+        .content { padding: 30px; }
+        .section { margin-bottom: 25px; }
+        .section h3 { color: #28a745; border-bottom: 2px solid #e9ecef; padding-bottom: 8px; margin-bottom: 15px; font-size: 18px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .info-item { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745; }
+        .info-item strong { color: #495057; display: block; margin-bottom: 5px; }
+        .info-item span { color: #6c757d; font-family: 'Monaco', 'Consolas', monospace; }
+        ul { list-style: none; padding: 0; }
+        ul li { background: #f8f9fa; margin: 8px 0; padding: 12px; border-radius: 6px; border-left: 3px solid #28a745; }
+        .production-banner { background: linear-gradient(135deg, #ffd700, #ffb347); color: #333; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 2px solid #ffc107; }
+        .footer { background: #f8f9fa; padding: 25px; text-align: center; border-top: 1px solid #dee2e6; }
+        .btn { display: inline-block; background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.3s; }
+        .btn:hover { background: #218838; }
+        .metrics { background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">✅</div>
+            <h1>Pipeline Completado Exitosamente</h1>
+            <p>Build #${BUILD_NUMBER} • ${JOB_NAME}</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h3>📋 Información del Build</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Job:</strong>
+                        <span>${JOB_NAME}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Build Number:</strong>
+                        <span>#${BUILD_NUMBER}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Branch:</strong>
+                        <span>${BRANCH_NAME}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Versión Semántica:</strong>
+                        <span>v${SEMANTIC_VERSION}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Commit:</strong>
+                        <span>${GIT_COMMIT}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Duración:</strong>
+                        <span>${DURATION}</span>
+                    </div>
+                </div>
+            </div>
+
+            ${PRODUCTION_INFO}
+
+            <div class="section">
+                <h3>🚀 Servicios Construidos</h3>
+                <ul>
+                    ${SERVICES_LIST}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>🐳 Imágenes Docker Generadas</h3>
+                <ul>
+                    ${DOCKER_IMAGES}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>🔒 Métricas de Seguridad</h3>
+                <div class="metrics">
+                    <ul>
+                        ${SECURITY_METRICS}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Pipeline ejecutado exitosamente el ${BUILD_TIMESTAMP} por Jenkins CI/CD</p>
+            <a href="${BUILD_URL}" class="btn">Ver Detalles del Build</a>
+        </div>
+    </div>
+</body>
+</html>

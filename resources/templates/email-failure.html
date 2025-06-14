@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Fallido</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #fdf2f2; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; border: 2px solid #dc3545; }
+        .header { background: linear-gradient(135deg, #dc3545, #c82333); color: white; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; font-weight: 600; }
+        .header .icon { font-size: 48px; margin-bottom: 10px; }
+        .content { padding: 30px; }
+        .section { margin-bottom: 25px; }
+        .section h3 { color: #dc3545; border-bottom: 2px solid #f8d7da; padding-bottom: 8px; margin-bottom: 15px; font-size: 18px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .info-item { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #dc3545; }
+        .info-item strong { color: #495057; display: block; margin-bottom: 5px; }
+        .info-item span { color: #6c757d; font-family: 'Monaco', 'Consolas', monospace; }
+        .error-info { background: #f8d7da; padding: 20px; border-radius: 8px; border: 1px solid #f5c6cb; margin: 15px 0; }
+        .error-info strong { color: #721c24; }
+        ul { list-style: none; padding: 0; }
+        ul li { background: #f8f9fa; margin: 8px 0; padding: 12px; border-radius: 6px; border-left: 3px solid #dc3545; }
+        .test-status { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .test-item { background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; text-align: center; }
+        .test-item.failed { background: #f8d7da; border-left-color: #dc3545; }
+        .test-item.skipped { background: #e2e3e5; border-left-color: #6c757d; }
+        .footer { background: #f8f9fa; padding: 25px; text-align: center; border-top: 1px solid #dee2e6; }
+        .btn { display: inline-block; background: #dc3545; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.3s; }
+        .btn:hover { background: #c82333; }
+        .urgent { background: #f8d7da; color: #721c24; padding: 20px; border-radius: 8px; border: 2px solid #dc3545; text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">❌</div>
+            <h1>Pipeline Fallido</h1>
+            <p>Build #${BUILD_NUMBER} • ${JOB_NAME}</p>
+        </div>
+        
+        <div class="content">
+            <div class="urgent">
+                <h3>🚨 Acción Requerida</h3>
+                <p>El pipeline ha fallado y requiere atención inmediata. Por favor, revisa los detalles a continuación y corrige los problemas encontrados.</p>
+            </div>
+
+            <div class="section">
+                <h3>📋 Información del Build</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Job:</strong>
+                        <span>${JOB_NAME}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Build Number:</strong>
+                        <span>#${BUILD_NUMBER}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Branch:</strong>
+                        <span>${BRANCH_NAME}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Versión Semántica:</strong>
+                        <span>v${SEMANTIC_VERSION}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Commit:</strong>
+                        <span>${GIT_COMMIT}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Duración:</strong>
+                        <span>${DURATION}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>💥 Información del Error</h3>
+                <div class="error-info">
+                    <strong>Etapa que falló:</strong> ${FAILED_STAGE}
+                    <br><br>
+                    <strong>Descripción:</strong> El pipeline falló durante la ejecución de la etapa "${FAILED_STAGE}". 
+                    Revisa los logs del build para obtener más detalles sobre la causa específica del fallo.
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🧪 Estado de las Pruebas</h3>
+                <div class="test-status">
+                    <div class="test-item">
+                        <strong>Pruebas Unitarias</strong>
+                        <br>
+                        <span>${UNIT_TEST_STATUS}</span>
+                    </div>
+                    <div class="test-item">
+                        <strong>Pruebas de Integración</strong>
+                        <br>
+                        <span>${INTEGRATION_TEST_STATUS}</span>
+                    </div>
+                    <div class="test-item">
+                        <strong>Pruebas E2E</strong>
+                        <br>
+                        <span>${E2E_TEST_STATUS}</span>
+                    </div>
+                    <div class="test-item">
+                        <strong>Pruebas de Carga</strong>
+                        <br>
+                        <span>${LOAD_TEST_STATUS}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🚀 Servicios Afectados</h3>
+                <ul>
+                    ${SERVICES_LIST}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>🔧 Próximos Pasos</h3>
+                <div class="info-item">
+                    <ol style="color: #495057; padding-left: 20px;">
+                        <li>Revisa los logs detallados del build haciendo clic en el enlace de abajo</li>
+                        <li>Identifica la causa raíz del fallo en la etapa "${FAILED_STAGE}"</li>
+                        <li>Corrige los problemas encontrados en el código o configuración</li>
+                        <li>Realiza un nuevo commit y push para reiniciar el pipeline</li>
+                        <li>Si el problema persiste, contacta al equipo de DevOps</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Pipeline falló el ${BUILD_TIMESTAMP} en el servidor Jenkins CI/CD</p>
+            <a href="${BUILD_URL}" class="btn">Ver Logs Detallados del Build</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,14 +4,15 @@ class Constants {
     // Microservicios disponibles
     static final List<String> MICROSERVICES = [
         'api-gateway',
-        'service-discovery', 
+        'service-discovery',
+        'cloud-config',
         'user-service',
         'product-service',
         'order-service',
         'payment-service',
         'shipping-service',
         'favourite-service',
-        'proxy-service'
+        'proxy-client'
     ]
     
     // Servicios con diferentes tipos de pruebas
